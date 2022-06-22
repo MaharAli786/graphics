@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <title>Document</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Eczar:wght@400;700&display=swap');
+
+        * {
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Eczar', serif;
+            color: rgb(31, 69, 57);
+
+            background: hsl(135, 31%, 60%);
+            overflow: hidden;
+        }
+
+        section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        h1 {
+            text-transform: uppercase;
+            letter-spacing: .5em;
+            font-size: 1vw;
+            color: hsl(64deg 62% 82%);
+        }
+
+        .logo img {
+            position: absolute;
+            top: 4vh;
+            left: 50%;
+            margin-left: -4vw;
+            width: 8vw;
+        }
+
+        #name {
+            font-size: 7vw;
+            line-height: 1.5;
+            font-weight: 700;
+            text-transform: capitalize;
+        }
+
+        button {
+            border: 0.2rem solid hsl(146deg 28% 45%);
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.25rem;
+            background: transparent;
+            font-family: inherit;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: rgb(31 69 57);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: border .3s ease-in,
+                box-shadow .3s ease-in,
+                transform .3s ease-in;
+        }
+
+        button:hover {
+            border-color: white;
+            box-shadow: 0 0 1rem 0 rgba(255, 255, 255, 0.3);
+        }
+
+        button:active {
+            transform: scale(.8)
+        }
+
+        .leaf {
+            position: fixed;
+            top: -2vh;
+            right: 60%;
+
+            width: 2vw;
+            height: 2vw;
+
+            border-radius: 100% 0 100% 0;
+
+            background: hsl(161, 38%, 20%);
+            animation: falling 5s ease-in-out infinite;
+        }
+
+        .leaf.one {
+            right: 0;
+            animation-delay: 1s;
+        }
+
+        .leaf.two {
+            right: 20%;
+            animation-delay: 2s;
+        }
+
+        .leaf.three {
+            right: 80%;
+            animation-delay: .5s;
+        }
+
+        .leaf.four {
+            right: 50%;
+            animation-delay: 3s;
+        }
+
+        @keyframes falling {
+            0% {
+                display: none;
+                transform: translateY(-2vh) rotate(-90deg);
+            }
+
+            25% {
+                transform: translate(-100px, 25vh) rotate(90deg);
+            }
+
+            50% {
+                transform: translate(50px, 50vh) rotate(-90deg);
+            }
+
+            75% {
+                transform: translate(-80px, 75vh) rotate(90deg);
+                opacity: 1;
+            }
+
+            99% {
+                transform: translate(20px, 100vh) rotate(-90deg);
+            }
+
+            100% {
+                opacity: 0;
+                display: none;
+            }
+        }
+
+        @media screen and (max-width: 500px) {
+            h1 {
+                font-size: 4vw;
+            }
+
+            .logo img {
+                width: 30vw;
+                margin-left: -15vw;
+            }
+
+            #input {
+                font-size: 20vw;
+                color: white;
+                background: hsl(135, 31%, 60%);
+
+            }
+
+            .leaf {
+                width: 6vw;
+                height: 6vw;
+                top: -8vw;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+        <h1>Name Generator</h1>
+        <div class="d-flex justify-content-center w-50">
+            <input class="form-control p-0 w-50 text-center form-control-lg text-light mb-2" type="text" id="name"
+                style="background-color:hsl(135, 31%, 60%)">
+        </div>
+
+        <button onclick="gen_Name()">New name</button>
+    </section>
+
+    <div class="leaf"></div>
+    <div class="leaf one"></div>
+    <div class="leaf two"></div>
+    <div class="leaf three"></div>
+    <div class="leaf four"></div>
+
+</body>
+
+</html>
+<script>
+
+    const alphabets = [
+        ['a', 'e', 'i', 'o', 'u'],
+        ['c', 'f', 'g', 'h', 'l', 'm', 'n', 'p', 'r', 's', 'v', 'z'],
+        ['b', 'd', 'j', 'k', 'q', 't', 'w', 'x', 'z'],
+    ]
+
+    // ----------------length of the name from 4 to 6 digits --------------
+
+    const strlength = Math.floor(Math.random() * (7 - 4)) + 4;
+
+    gen_Name = () => {
+        const rand_num = Math.floor(Math.random() * (123 - 97)) + 97;
+        // _____Create the First Letter from A-Z and convert it to Uppercase---------
+        var name = String.fromCharCode(rand_num).toLocaleUpperCase();
+
+        for (var i = 1; i <= strlength - 1; i++) {
+            const number = Math.floor(Math.random() * (3 - 0)) + 0;
+            if (number == 0) {
+                // -------this will pick a digit from vowels -----------
+                var next_letter = alphabets[0][Math.floor(Math.random() * ((alphabets[0].length - 1) - 0)) + 0];
+                name += next_letter;
+
+            }
+            // ----------This will pick a digit from consonents---------
+            else if (number == 1) {
+                var next_letter = alphabets[1][Math.floor(Math.random() * ((alphabets[1].length - 1) - 0)) + 0];
+                if (name.charAt(name.length - 1) !== next_letter) {
+                    name += next_letter;
+                } else { i = i - 1 }
+            }
+            // ---------BAd latters -------------
+            else {
+                var next_letter = alphabets[2][Math.floor(Math.random() * ((alphabets[2].length - 1) - 0)) + 0];
+                if (name.charAt(name.length - 1) !== next_letter) {
+                    name += next_letter;
+                } else { i = i - 1 }
+            }
+
+        }
+        var text = document.getElementById("name");
+        text.value = name;
+    }
+
+</script>
